@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="card list-car">
+    <h5 class="card-header">Lista de produtos</h5>
+    <div class="card-body">
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">TABPROD_seq_tabprod</th>
+              <th scope="col">TABPROD_desc</th>
+              <th scope="col">cod_oper_inc</th>
+              <th scope="col">dat_inclusao</th>
+              <th scope="col">cod_oper_alt</th>
+              <th scope="col">dat_alteracao</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let produto of produtos">
+              <td>{{ produto.TABPROD_seq_tabprod }}</td>
+              <td>{{ produto.TABPROD_desc }}</td>
+              <td>{{ produto.cod_oper_inc }}</td>
+              <td>{{ produto.dat_inclusao | date}}</td>
+              <td>{{ produto.cod_oper_alt }}</td>
+              <td>{{ produto.dat_alteracao | date}}</td>
+              <td>
+                <button type="button" class="btn btn-warning btn-sm" (click)="editarProduto(produto)">Editar</button>
+                <button type="button" class="btn btn-danger btn-sm ml-1" (click)="excluiProduto(produto)">Deletar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <!-- EDITAR ou ADICIONAR -->
+  <div class="card add-car">
+      <h5 class="card-header">Adicionar/Atualizar produto</h5>
+      <div class="card-body">
+          <form id="add-form" (ngSubmit)="f.form.valid && atualizaProduto(f)" #f="ngForm">
+            <!-- Descrição -->
+            <div class="form-group">
+                <label for="TABPROD_desc">Descrição</label>
+                <input type="text" [(ngModel)]="produto.TABPROD_desc" id="TABPROD_desc" name="TABPROD_desc" #TABPROD_desc="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && TABPROD_desc.invalid }" placeholder="Digite a descrição">
+                <div *ngIf="f.submitted && TABPROD_desc.invalid" class="invalid-feedback">
+                    <div *ngIf="TABPROD_desc.errors.required">Descrição é obrigatória</div>
+                </div>
+            </div>
+            <!-- Código de alteração -->
+            <div class="form-group">
+                <label for="cod_oper_alt">Código de alteração</label>
+                <input type="number" [(ngModel)]="produto.cod_oper_alt" id="cod_oper_alt" name="cod_oper_alt" #cod_oper_alt="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && cod_oper_alt.invalid }" placeholder="Digite o código">
+                <div *ngIf="f.submitted && cod_oper_alt.invalid" class="invalid-feedback">
+                    <div *ngIf="cod_oper_alt.errors.required">Código de alteração é obrigatório</div>
+                </div>
+            </div>
+            <!-- Data de alteração -->
+            <div class="form-group">
+                <label for="dat_alteracao">Data de alteração</label>
+                <input  [(ngModel)]="produto.dat_alteracao" id="dat_alteracao" name="dat_alteracao" #dat_alteracao="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && dat_alteracao.invalid }" placeholder="Digite a data">
+                <div *ngIf="f.submitted && dat_alteracao.invalid" class="invalid-feedback">
+                    <div *ngIf="dat_alteracao.errors.required">Data de alteração é obrigatória</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-add-car">Salvar</button>
+            <button type="reset" class="btn btn-secondary btn-add-car" (click)="cleanForm(f)">Cancelar</button>
+          </form>
+      </div>
+    </div>
+</div>
